@@ -19,14 +19,18 @@ try:
 except AttributeError:
     import urllib.request as urllib
 url = 'http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz'
-data_file = 'cifar-10-python.tar.gz'
+data_file = '../cifar-10-python.tar.gz'
 if not os.path.exists(data_file):
+    print("Downloading cifar10")
     urllib.urlretrieve(url, data_file)
     tar = tarfile.open(data_file)
+    os.chdir('..')
     tar.extractall()
     tar.close()
+    print("Download complete")
 
-data_dir = 'cifar-10-batches-py'
+data_dir = '../cifar-10-batches-py/'
+from IPython import embed; embed()
 train_files = []
 for filepath in fnmatch.filter(os.listdir(data_dir), 'data*'):
     train_files.append(os.path.join(data_dir, filepath))
