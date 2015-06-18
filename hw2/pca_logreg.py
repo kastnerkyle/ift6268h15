@@ -2,6 +2,7 @@ import numpy as np
 import tarfile
 import os
 import fnmatch
+from scipy.linalg import svd
 
 def unpickle(f):
     import cPickle
@@ -58,8 +59,12 @@ train_x -= train_x.mean(axis=1, keepdims=True)
 train_x /= train_x.std(axis=1, keepdims=True)
 
 X = train_x[:45000]
+U, S, VT = svd(X)
+components = VT[:800]
+X = np.dot(X, components.T)
 y = train_y[:45000]
 vX = train_x[-5000:]
+vX = np.dot(vX, components.T)
 vy = train_y[-5000:]
 
 
